@@ -90,6 +90,22 @@ namespace Sleeksoft.CB
             }
         }
 
+        public T ExecuteSync<T>(Func<T> command, Func<T> fallbackCommand)
+        {
+            if ( command == null )
+            {
+                throw new ArgumentNullException("command");
+            }
+            else if ( fallbackCommand == null )
+            {
+                throw new ArgumentNullException("fallbackCommand");
+            }
+            else
+            {
+                return m_CurrentState.ExecuteSync(command, fallbackCommand);
+            }
+        }
+
         public async Task ExecuteAsync(Func<Task> command)
         {
             if ( command == null )
@@ -111,6 +127,22 @@ namespace Sleeksoft.CB
             else
             {
                 return await m_CurrentState.ExecuteAsync(command);
+            }
+        }
+
+        public async Task<T> ExecuteAsync<T>(Func<Task<T>> command, Func<Task<T>> fallbackCommand)
+        {
+            if ( command == null )
+            {
+                throw new ArgumentNullException("command");
+            }
+            else if ( fallbackCommand == null )
+            {
+                throw new ArgumentNullException("fallbackCommand");
+            }
+            else
+            {
+                return await m_CurrentState.ExecuteAsync(command, fallbackCommand);
             }
         }
     }

@@ -89,6 +89,27 @@ namespace Sleeksoft.CB.States
             return result;
         }
 
+        // Execute synchronous command with result
+        // Then execute fallback command if first command failed.
+        // NB Only first command affects the circuit breaker.
+        public T ExecuteSync<T>(Func<T> command, Func<T> fallbackCommand)
+        {
+            T result = default(T);
+
+            try
+            {
+                result = m_Command.ExecuteSync(command);
+                this.CommandSucceeded();
+            }
+            catch ( Exception )
+            {
+                this.CommandFailed();
+                result = m_Command.ExecuteSync(fallbackCommand);
+            }
+
+            return result;
+        }
+
         // Execute asynchronous command without result.
         public async Task ExecuteAsync(Func<Task> command)
         {
@@ -134,6 +155,29 @@ namespace Sleeksoft.CB.States
                 {
                     this.CommandSucceeded();
                 }
+            }
+
+            return await task;
+        }
+
+        // Execute asynchronous command with result
+        // Then execute fallback command if first command failed.
+        // NB Only first command affects the circuit breaker.
+        public async Task<T> ExecuteAsync<T>(Func<Task<T>> command, Func<Task<T>> fallbackCommand)
+        {
+            Task<T> task = default(Task<T>);
+
+            try
+            {
+                task = m_Command.ExecuteAsync(command);
+                await task;
+                this.CommandSucceeded();
+            }
+            catch ( Exception )
+            {
+                this.CommandFailed();
+                task = m_Command.ExecuteAsync(fallbackCommand);
+                await task;
             }
 
             return await task;

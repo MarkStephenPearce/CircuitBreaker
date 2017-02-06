@@ -60,12 +60,22 @@ namespace Sleeksoft.CB.States
             throw new CircuitBreakerOpenException();
         }
 
-         public async Task ExecuteAsync(Func<Task> command)
+        public T ExecuteSync<T>(Func<T> command, Func<T> fallbackCommand)
+        {
+            throw new CircuitBreakerOpenException();
+        }
+
+        public async Task ExecuteAsync(Func<Task> command)
         {
             throw new CircuitBreakerOpenException();
         }
 
         public async Task<T> ExecuteAsync<T>(Func<Task<T>> command)
+        {
+            throw new CircuitBreakerOpenException();
+        }
+
+        public async Task<T> ExecuteAsync<T>(Func<Task<T>> command, Func<Task<T>> fallbackCommand)
         {
             throw new CircuitBreakerOpenException();
         }
