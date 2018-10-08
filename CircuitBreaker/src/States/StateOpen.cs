@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using Sleeksoft.CB.Exceptions;
+using Sleeksoft.CB.Commands;
 
 namespace Sleeksoft.CB.States
 {

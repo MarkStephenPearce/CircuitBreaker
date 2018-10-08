@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Sleeksoft.CB.Commands;
+
 namespace Sleeksoft.CB.States
 {
     // The circuit is closed. Therefore any call will be attempted.
