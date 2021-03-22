@@ -8,7 +8,7 @@ using Sleeksoft.CB.Exceptions;
 namespace Sleeksoft.CB.Tests
 {
     [TestClass]
-    public sealed class TestAsyncWithoutResult
+    public sealed class TestAsyncWithoutResult : IDisposable
     {
         private const int MAX_FAILURES_BEFORE_TRIP = 3;
         private readonly TimeSpan CIRCUIT_RESET_TIMEOUT = TimeSpan.FromMilliseconds(150);
@@ -132,6 +132,26 @@ namespace Sleeksoft.CB.Tests
             }
             catch ( ArithmeticException )
             {
+            }
+        }
+
+        /// <summary>Cleans up state related to this type.</summary>
+        /// <remarks>
+        /// Don't make this method virtual. A derived type should 
+        /// not be able to override this method.
+        /// Because this type only disposes managed resources, it 
+        /// don't need a finaliser. A finaliser isn't allowed to 
+        /// dispose managed resources.
+        /// Without a finaliser, this type doesn't need an internal 
+        /// implementation of Dispose() and doesn't need to suppress 
+        /// finalisation to avoid race conditions. So the full 
+        /// IDisposable code pattern isn't required.
+        /// </remarks>
+        public void Dispose()
+        {
+            if (m_Circuit != null)
+            {
+                m_Circuit.Dispose();
             }
         }
     }

@@ -7,7 +7,7 @@ using Sleeksoft.CB.Commands;
 namespace Sleeksoft.CB.States
 {
     // The circuit is closed. Therefore any call will be attempted.
-    internal class StateClosed : ICircuitState
+    internal class StateClosed : ICircuitState, IDisposable
     {
         private const string TYPE_NAME = "StateClosed";
 

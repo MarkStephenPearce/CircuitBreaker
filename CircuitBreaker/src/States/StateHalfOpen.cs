@@ -10,7 +10,7 @@ namespace Sleeksoft.CB.States
     // The circuit is half-open. The first call to be 
     // attempted will switch the circuit state depending
     // on the call's success or failure.
-    internal class StateHalfOpen : ICircuitState
+    internal class StateHalfOpen : ICircuitState, IDisposable
     {
         private const string TYPE_NAME = "StateHalfOpen";
 

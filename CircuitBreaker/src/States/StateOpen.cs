@@ -9,7 +9,7 @@ namespace Sleeksoft.CB.States
     #pragma warning disable CS1998 
     // The circuit is open. Therefore any call must fail-fast
     // until the circuit reset interval has elapsed.    
-    internal class StateOpen : ICircuitState
+    internal class StateOpen : ICircuitState, IDisposable
     {
         private const string TYPE_NAME = "StateOpen";
 

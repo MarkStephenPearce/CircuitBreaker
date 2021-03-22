@@ -41,6 +41,7 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Exceptions\CircuitBreakerOpenException.cs" />
     <Compile Include="Exceptions\CircuitBreakerTimeoutException.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Interfaces\ICircuit.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Interfaces\ICircuitState.cs" />
