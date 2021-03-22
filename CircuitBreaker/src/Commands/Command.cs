@@ -8,6 +8,8 @@ namespace Sleeksoft.CB.Commands
 {
     class Command : ICommand, IDisposable
     {
+        private const string TYPE_NAME = "Command";
+
         private Timer m_Timer;
         private readonly TimeSpan m_CommandTimeout;
 
@@ -29,7 +31,7 @@ namespace Sleeksoft.CB.Commands
         {
             if ( this.Disposed )
             {
-                throw new ObjectDisposedException("Command");
+                throw new ObjectDisposedException(TYPE_NAME);
             }
 
             m_Timer = new Timer(_ => command(), null, (int) waitInterval.TotalMilliseconds, Timeout.Infinite);
@@ -40,7 +42,7 @@ namespace Sleeksoft.CB.Commands
         {
             if ( this.Disposed )
             {
-                throw new ObjectDisposedException("Command");
+                throw new ObjectDisposedException(TYPE_NAME);
             }
 
             var task = Task.Run(command);
@@ -65,7 +67,7 @@ namespace Sleeksoft.CB.Commands
         {
             if ( this.Disposed )
             {
-                throw new ObjectDisposedException("Command");
+                throw new ObjectDisposedException(TYPE_NAME);
             }
 
             var task = Task.Run(command);
@@ -90,7 +92,7 @@ namespace Sleeksoft.CB.Commands
         {
             if ( this.Disposed )
             {
-                throw new ObjectDisposedException("Command");
+                throw new ObjectDisposedException(TYPE_NAME);
             }
 
             try
@@ -109,7 +111,7 @@ namespace Sleeksoft.CB.Commands
         {
             if ( this.Disposed )
             {
-                throw new ObjectDisposedException("Command");
+                throw new ObjectDisposedException(TYPE_NAME);
             }
 
             try

@@ -10,5 +10,6 @@ namespace Sleeksoft.CB
         T ExecuteSync<T>(Func<T> command);
         Task ExecuteAsync(Func<Task> command);
         Task<T> ExecuteAsync<T>(Func<Task<T>> command);
+        void Dispose();
     }
 }

@@ -15,5 +15,6 @@ namespace Sleeksoft.CB
         Task ExecuteAsync(Func<Task> command);
         Task<T> ExecuteAsync<T>(Func<Task<T>> command);
         Task<T> ExecuteAsync<T>(Func<Task<T>> command, Func<Task<T>> fallbackCommand);
+        void Dispose();
     }
 }

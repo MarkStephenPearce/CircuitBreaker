@@ -126,7 +126,7 @@ namespace Sleeksoft.CB.Tests
         }
 
         [TestMethod]
-        public async Task Async_FallbackCommandShouldWork()
+        public async Task AsyncResult_FallbackCommandShouldWork()
         {
             m_Circuit.Close();
 

@@ -12,6 +12,8 @@ namespace Sleeksoft.CB.States
     // on the call's success or failure.
     internal class StateHalfOpen : ICircuitState
     {
+        private const string TYPE_NAME = "StateHalfOpen";
+
         private const int CALL_RUNNING = 1;
         private const int CALL_NOT_RUNNING = 0;
 
@@ -25,6 +27,11 @@ namespace Sleeksoft.CB.States
             m_Circuit = circuit;
             m_Command = new Command(commandTimeout);
         }
+
+        /// <summary>
+        /// Has this type been disposed already?
+        /// </summary>
+        internal bool Disposed { get; private set; }
 
         public void Enter()
         {
@@ -59,6 +66,11 @@ namespace Sleeksoft.CB.States
         // Execute synchronous command without result.
         public void ExecuteSync(Action command)
         {
+            if (this.Disposed)
+            {
+                throw new ObjectDisposedException(TYPE_NAME);
+            }
+
             if ( Interlocked.CompareExchange(ref m_IsCallRunning, CALL_RUNNING, CALL_NOT_RUNNING) == CALL_NOT_RUNNING )
             {
                 bool exceptionHappened = true;
@@ -89,6 +101,11 @@ namespace Sleeksoft.CB.States
         // Execute synchronous command with result.
         public T ExecuteSync<T>(Func<T> command)
         {
+            if (this.Disposed)
+            {
+                throw new ObjectDisposedException(TYPE_NAME);
+            }
+
             if ( Interlocked.CompareExchange(ref m_IsCallRunning, CALL_RUNNING, CALL_NOT_RUNNING) == CALL_NOT_RUNNING )
             {
                 T result = default(T);
@@ -124,6 +141,11 @@ namespace Sleeksoft.CB.States
         // NB Only first command affects the circuit breaker.
         public T ExecuteSync<T>(Func<T> command, Func<T> fallbackCommand)
         {
+            if (this.Disposed)
+            {
+                throw new ObjectDisposedException(TYPE_NAME);
+            }
+
             if ( Interlocked.CompareExchange(ref m_IsCallRunning, CALL_RUNNING, CALL_NOT_RUNNING) == CALL_NOT_RUNNING )
             {
                 T result = default(T);
@@ -150,6 +172,11 @@ namespace Sleeksoft.CB.States
         // Execute asynchronous command without result.
         public async Task ExecuteAsync(Func<Task> command)
         {
+            if (this.Disposed)
+            {
+                throw new ObjectDisposedException(TYPE_NAME);
+            }
+
             if ( Interlocked.CompareExchange(ref m_IsCallRunning, CALL_RUNNING, CALL_NOT_RUNNING) == CALL_NOT_RUNNING )
             {
                 bool exceptionHappened = true;
@@ -180,6 +207,11 @@ namespace Sleeksoft.CB.States
         // Execute asynchronous command with result.
         public async Task<T> ExecuteAsync<T>(Func<Task<T>> command)
         {
+            if (this.Disposed)
+            {
+                throw new ObjectDisposedException(TYPE_NAME);
+            }
+
             if ( Interlocked.CompareExchange(ref m_IsCallRunning, CALL_RUNNING, CALL_NOT_RUNNING) == CALL_NOT_RUNNING )
             {
                 Task<T> task = default(Task<T>);
@@ -216,6 +248,11 @@ namespace Sleeksoft.CB.States
         // NB Only first command affects the circuit breaker.
         public async Task<T> ExecuteAsync<T>(Func<Task<T>> command, Func<Task<T>> fallbackCommand)
         {
+            if (this.Disposed)
+            {
+                throw new ObjectDisposedException(TYPE_NAME);
+            }
+
             if ( Interlocked.CompareExchange(ref m_IsCallRunning, CALL_RUNNING, CALL_NOT_RUNNING) == CALL_NOT_RUNNING )
             {
                 Task<T> task = default(Task<T>);
@@ -238,6 +275,31 @@ namespace Sleeksoft.CB.States
             else
             {
                 throw new CircuitBreakerOpenException();
+            }
+        }
+
+        /// <summary>Cleans up state related to this type.</summary>
+        /// <remarks>
+        /// Don't make this method virtual. A derived type should 
+        /// not be able to override this method.
+        /// Because this type only disposes managed resources, it 
+        /// don't need a finaliser. A finaliser isn't allowed to 
+        /// dispose managed resources.
+        /// Without a finaliser, this type doesn't need an internal 
+        /// implementation of Dispose() and doesn't need to suppress 
+        /// finalisation to avoid race conditions. So the full 
+        /// IDisposable code pattern isn't required.
+        /// </remarks>
+        public void Dispose()
+        {
+            if (!this.Disposed)
+            {
+                this.Disposed = true;
+
+                if (m_Command != null)
+                {
+                    m_Command.Dispose();
+                }
             }
         }
     }

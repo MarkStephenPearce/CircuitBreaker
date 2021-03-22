@@ -112,7 +112,7 @@ namespace Sleeksoft.CB.Tests
         }
 
         [TestMethod]
-        public async Task AsyncResult_HalfOpenCircuitShouldOpen()
+        public async Task Async_HalfOpenCircuitShouldOpen()
         {
             m_Circuit.Open();
 

@@ -112,7 +112,7 @@ namespace Sleeksoft.CB.Tests
         }
 
         [TestMethod]
-        public void Sync_HalfOpenCircuitShouldOpen()
+        public void SyncResult_HalfOpenCircuitShouldOpen()
         {
             m_Circuit.Open();
 
@@ -125,7 +125,7 @@ namespace Sleeksoft.CB.Tests
         }
 
         [TestMethod]
-        public void Sync_FallbackCommandShouldWork()
+        public void SyncResult_FallbackCommandShouldWork()
         {
             m_Circuit.Close();
 
