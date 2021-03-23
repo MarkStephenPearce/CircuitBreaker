@@ -7,7 +7,7 @@ using Sleeksoft.CB.Exceptions;
 namespace Sleeksoft.CB
 {
     // The following code is taken from "Crafting a Task.TimeoutAfter Method" post by Joe Hoag
-    // http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx
+    // https://devblogs.microsoft.com/pfxteam/crafting-a-task-timeoutafter-method/
     public static class TaskExtensions
     {
         public static Task<TResult> TimeoutAfter<TResult>(this Task<TResult> task, TimeSpan timeout)
