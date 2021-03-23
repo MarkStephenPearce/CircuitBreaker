@@ -228,6 +228,10 @@ namespace Sleeksoft.CB
                 {
                     m_StateHalfOpen.Dispose();
                 }
+                if (m_CurrentState != null)
+                {
+                    m_CurrentState.Dispose();
+                }
             }
         }
     }
